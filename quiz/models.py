@@ -12,3 +12,12 @@ class Quiz(models.Model):
 
     def __str__(self) :
         return self.title
+
+class Assignment(models.Model):
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    due_date = models.DateField()
+    course = models.ForeignKey(Quiz, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.title

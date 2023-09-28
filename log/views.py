@@ -1,4 +1,8 @@
-from log.models import (User, Teacher, Grade, Manager, Program, Student)
+from log.models import (User, Teacher, Grade,
+                        Manager, Program, Student,
+                        LibraryTransaction, Book, Event,
+                        Payment, Fee, ParentGuardian, AcademicYear,
+                        )
 from rest_framework.decorators import action
 from log.logserializers import (
     UserSerializer,
@@ -7,10 +11,17 @@ from log.logserializers import (
     ManagerSerializer,
     ProgramSerializer,
     StudentSerializer,
+    FeeSerializer,
+    AcademicYearSerializer,
+    ParentGuardianSerializers,
+    PaymentSerializer,
+    EventSerializer,
+    BookSerializer,
+    LibraryTransactionSerializer,
     )
 from rest_framework import generics,views
 from rest_framework.response import Response
-from rest_framework import status, viewsets
+from rest_framework import viewsets
 from rest_framework import mixins
 
 from django.views.decorators.csrf import csrf_exempt
@@ -18,7 +29,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from rest_framework import viewsets, mixins
 
-class UserModelViewSet(viewsets.ModelViewSet, mixins.ListModelMixin):
+class UserModelViewSet(viewsets.ModelViewSet):
     """api views for users"""
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -39,6 +50,8 @@ class UserModelViewSet(viewsets.ModelViewSet, mixins.ListModelMixin):
             serializer.save()
             return Response(serializer.data, status=201)  # Return the created user data
         # return Response(serializer.errors, status=400)
+
+
 
 class TeacherModelViewSet(viewsets.ModelViewSet):
     """model view set"""
@@ -67,3 +80,38 @@ class StudentView(viewsets.ModelViewSet):
     """models for students"""
     serializer_class = StudentSerializer
     queryset = Student.objects.all()
+
+class LibraryTransactionView(viewsets.ModelViewSet):
+    """library view set"""
+    serializer_class = LibraryTransactionSerializer
+    queryset = LibraryTransaction.objects.all()
+
+class BookView(viewsets.ModelViewSet):
+    """book view set"""
+    serializer_class = BookSerializer
+    queryset = Book.objects.all()
+
+class EventView(viewsets.ModelViewSet):
+    """event view"""
+    serializer_class = EventSerializer
+    queryset = Event.objects.all()
+
+class PaymentView(viewsets.ModelViewSet):
+    """payment view """
+    serializer_class = PaymentSerializer
+    queryset = Payment.objects.all()
+
+class FeeView(viewsets.ModelViewSet):
+    """fees view set"""
+    serializer_class = FeeSerializer
+    queryset = Fee.objects.all()
+
+class ParentGuardianView(viewsets.ModelViewSet):
+    """parent/guardian viewset"""
+    serializer_class = ParentGuardianSerializers
+    queryset = ParentGuardian.objects.all()
+
+class AcademicYearView(viewsets.ModelViewSet):
+    """academicyear view"""
+    serializer_class = AcademicYearSerializer
+    queryset = AcademicYear.objects.all()

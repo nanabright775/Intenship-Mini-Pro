@@ -15,6 +15,13 @@ router.register('manager', views.ManagerView)
 router.register('program', views.ProgramView)
 router.register('student', views.StudentView)
 router.register('user', views.UserModelViewSet)
+router.register('academicyear', views.AcademicYearView)
+router.register('parentguardian', views.ParentGuardianView)
+router.register('fee', views.FeeView)
+router.register('payment', views.PaymentView)
+router.register('book', views.BookView)
+router.register('librarytransaction', views.LibraryTransactionView)
+
 
 app_name = 'log'
 
