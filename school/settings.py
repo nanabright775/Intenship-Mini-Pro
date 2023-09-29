@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -127,6 +128,20 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+MEDIA_ROOT = '/static/media'
+STATIC_ROOT = '/web/static'
+
+# STATIC_URL = '/static/'
+# # if DEBUG:
+# STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')]
+# # else:
+# STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
+
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_URL = '/media/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -137,6 +152,10 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
+}
+
+SPECTACULAR_SETTINGS={
+    'COMPONENT_SPLIT_REQUEST':True,
 }
 
 CORS_ALLOW_ALL_ORIGINS = True

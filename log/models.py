@@ -17,6 +17,7 @@ class Teacher(models.Model):
     name = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     contact_number = models.BigIntegerField
     address=models.TextField(blank=True)
+    image=models.ImageField(upload_to="img/%y")
     date_of_birth = models.DateField
     password = models.CharField(max_length=100)
     def save(self, *args, **kwargs):
@@ -62,6 +63,7 @@ class Manager(models.Model):
     contact_number = models.BigIntegerField
     address=models.TextField(blank=True)
     date_of_birth = models.DateField
+    image=models.ImageField(upload_to="img/%y")
     password = models.CharField(max_length=100)
     def save(self, *args, **kwargs):
         user = User.objects.get(username=self.name.username)
@@ -106,6 +108,7 @@ class Student(models.Model):
     name = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     grade = models.ForeignKey(Grade, on_delete=models.CASCADE, default=2)
     contact_number = models.BigIntegerField
+    image=models.ImageField(upload_to="img/%y")
     address=models.TextField(blank=True)
     date_of_birth = models.DateField
     def save(self, *args, **kwargs):
@@ -157,6 +160,7 @@ class Book(models.Model):
     author = models.CharField(max_length=100)
     isbn = models.CharField(max_length=13, unique=True)
     available = models.BooleanField(default=True)
+    image=models.ImageField(upload_to="img/%y")
 
     def __str__(self):
         return self.title

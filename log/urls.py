@@ -4,9 +4,11 @@ from django.urls import (
 )
 
 from rest_framework.routers import DefaultRouter
-
+from django.conf import settings
+from django.conf.urls.static import static
 from log import views
 
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 router = DefaultRouter()
 router.register('teacher', views.TeacherModelViewSet)
@@ -21,6 +23,8 @@ router.register('fee', views.FeeView)
 router.register('payment', views.PaymentView)
 router.register('book', views.BookView)
 router.register('librarytransaction', views.LibraryTransactionView)
+router.register('studentdetails', views.StudentDetailView)
+
 
 
 app_name = 'log'
@@ -28,3 +32,6 @@ app_name = 'log'
 urlpatterns = [
     path('', include(router.urls)),
 ]
+
+if settings.DEBUG:
+    urlpatterns += staticfiles_urlpatterns()

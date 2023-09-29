@@ -4,7 +4,10 @@ from log.models import (User, Teacher, Grade,
                         Payment, Fee, ParentGuardian, AcademicYear,
                         )
 from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework import status
 from log.logserializers import (
+    StudentImageSerializer,
     UserSerializer,
     TeacherSerializer,
     GradeSerializer,
@@ -18,6 +21,7 @@ from log.logserializers import (
     EventSerializer,
     BookSerializer,
     LibraryTransactionSerializer,
+    StudentDetailSerialiser,
     )
 from rest_framework import generics,views
 from rest_framework.response import Response
@@ -78,8 +82,31 @@ class ProgramView(viewsets.ModelViewSet):
 
 class StudentView(viewsets.ModelViewSet):
     """models for students"""
-    serializer_class = StudentSerializer
+    #serializer_class = StudentSerializer
     queryset = Student.objects.all()
+    def get_serializer_class(self):
+        """return the serializer class for request"""
+        if self.action == 'list':
+            return StudentSerializer
+        elif self.action=='upload_image':
+            return StudentImageSerializer
+        return self.serializer_class
+    
+    @action(methods=['POST'], detail=True, url_path='upload-image')
+    def upload_image(self, request, pk=None):
+        """function for uploading image to recipe"""
+        student = self.get_object()
+        serializer = self.get_serializer(student, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,  status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    
+    
+    
+    
 
 class LibraryTransactionView(viewsets.ModelViewSet):
     """library view set"""
@@ -115,3 +142,8 @@ class AcademicYearView(viewsets.ModelViewSet):
     """academicyear view"""
     serializer_class = AcademicYearSerializer
     queryset = AcademicYear.objects.all()
+    
+class StudentDetailView(viewsets.ModelViewSet):
+    """viewset for student detail view"""
+    serializer_class = StudentDetailSerialiser
+    queryset=Student.objects.all()

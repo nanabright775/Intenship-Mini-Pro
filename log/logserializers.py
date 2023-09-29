@@ -18,7 +18,7 @@ class TeacherSerializer(serializers.ModelSerializer):
     name = UserSerializer
     class Meta:
         model = Teacher
-        fields =['name', 'contact_number', 'address', 'date_of_birth']
+        fields =['name', 'contact_number', 'address', 'date_of_birth', 'image']
 
 class GradeSerializer(serializers.ModelSerializer):
     """serializers for grades"""
@@ -32,7 +32,7 @@ class ManagerSerializer(serializers.ModelSerializer):
     name = UserSerializer
     class Meta:
         model = Manager
-        fields = ['name', 'contact_number', 'address', 'date_of_birth']
+        fields = ['name', 'contact_number', 'address', 'date_of_birth',  'image']
 
 
 
@@ -51,7 +51,7 @@ class StudentSerializer(serializers.ModelSerializer):
     grade = GradeSerializer
     class Meta:
         model = Student
-        fields = ['name', 'grade', 'contact_number', 'address', 'date_of_birth']
+        fields = ['name', 'grade',]
 
 
 class AcademicYearSerializer(serializers.ModelSerializer):
@@ -98,7 +98,7 @@ class BookSerializer(serializers.ModelSerializer):
     """model serializer"""
     class Meta:
         model = Book
-        fields = ['title', 'author', 'isbn', 'available']
+        fields = ['title', 'author', 'isbn', 'available', 'image']
 
 
 class LibraryTransactionSerializer(serializers.ModelSerializer):
@@ -109,3 +109,28 @@ class LibraryTransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = LibraryTransaction
         fields = ['academicyear', 'book', 'student', 'checkout_date', 'return_date']
+
+class  ParentOrGuardianSerializer(serializers.ModelSerializer):
+    """serializer for parentGuardian serializer"""
+    class Meta:
+        model = ParentGuardian
+        fields = ['first_name', 'last_name', 'email', 'relationship_to_student']
+        
+class StudentImageSerializer(serializers.ModelSerializer):
+    """serializer for uploading student images"""
+    class Meta:
+        model = Student
+        fields =['image', ]
+        read_only_fields=['id']
+        extra_kwargs = {'image': {'required': 'True'}}
+        
+class StudentDetailSerialiser(serializers.ModelSerializer):
+    """students detail serializer"""
+    name = UserSerializer
+    grade = GradeSerializer
+    parentGuardian = ParentOrGuardianSerializer
+    image = StudentImageSerializer
+    
+    class Meta:
+        model = Student
+        fields = ['name', 'grade', 'parentGuardian', 'image', 'contact_number', 'address', 'date_of_birth']
